@@ -5,7 +5,6 @@ import repository.OrderRepository;
 import repository.ProductRepository;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,11 +13,19 @@ public class Service {
     OrderItemsRepository orderItemsRepository;
     OrderRepository orderRepository;
     ProductRepository productRepository;
+    Map<Date, String> finalResult = new HashMap<>();
 
     public Service() throws ParseException {
         this.orderItemsRepository = new OrderItemsRepository();
         this.orderRepository = new OrderRepository();
         this.productRepository = new ProductRepository();
+    }
+
+    public Map<Date, String> allDates(){
+        for (Date date : orderRepository.getDates()){
+            finalResult.put(date, findMax(date));
+        }
+        return this.finalResult;
     }
 
     public String findMax(Date data) {

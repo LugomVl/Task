@@ -57,4 +57,8 @@ public class OrderRepository {
         }
         return to;
     }
+
+    public Set<Date> getDates() {
+        return dates;
+    }
 }
