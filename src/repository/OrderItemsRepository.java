@@ -1,12 +1,14 @@
 package repository;
 
 import model.OrderItems;
+import model.Product;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderItemsRepository {
     private ArrayList<OrderItems> orderItems = new ArrayList<>();
@@ -37,18 +39,19 @@ public class OrderItemsRepository {
         }
     }
 
-    public String productId(String orderId){
+    public List<String> productId(String orderId){
+        List<String> list = new ArrayList<>();
         for (OrderItems orderItem:orderItems){
             if (orderItem.getOrderId().equals(orderId)){
-                return orderItem.getProductId();
+                list.add(orderItem.getProductId());
             }
         }
-        return null;
+        return list;
     }
 
-    public int quantity(String orderId){
-        for (OrderItems orderItem:orderItems){
-            if (orderItem.getOrderId().equals(orderId)){
+    public int quantity(String orderId, String productId) {
+        for (OrderItems orderItem : orderItems) {
+            if (orderItem.getProductId().equals(productId) && orderItem.getOrderId().equals(orderId)) {
                 return orderItem.getQuantity();
             }
         }

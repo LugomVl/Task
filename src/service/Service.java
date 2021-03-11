@@ -31,11 +31,12 @@ public class Service {
     public String findMax(Date data) {
         Map<String, Long> map = new HashMap<>();
         for (String orderId : orderRepository.toArray(data)) {
-            String productId = orderItemsRepository.productId(orderId);
-            if (map.containsKey(productId)) {
-                map.put(productId, map.get(productId) + (orderItemsRepository.quantity(orderId)*productRepository.findPriceByProductId(productId)));
-            } else {
-                map.put(productId, orderItemsRepository.quantity(orderId)*productRepository.findPriceByProductId(productId));
+            for(String productId : orderItemsRepository.productId(orderId)) {
+                if (map.containsKey(productId)) {
+                    map.put(productId, map.get(productId) + (orderItemsRepository.quantity(orderId, productId) * productRepository.findPriceByProductId(productId)));
+                } else {
+                    map.put(productId, orderItemsRepository.quantity(orderId, productId) * productRepository.findPriceByProductId(productId));
+                }
             }
         }
         return maxCount(map);
